@@ -1,4 +1,2 @@
 # credit_task_6.1
-hello this i second
-
-hello  
+making changes to test a commit trigger pipeline
