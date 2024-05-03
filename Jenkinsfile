@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
@@ -8,29 +9,32 @@ pipeline {
                 }
             }
         }
+
         stage('Unit and Integration Tests') {
             steps {
                 script {
-                    echo 'Running unit tests using JUnit to validate individual components and integration tests to ensure components work together as expected.'
+                    echo 'Running unit tests using JUnit for unit testing and Selenium for integration testing to validate individual components and ensure components work together as expected.'
                 }
             }
             post {
                 always {
                     emailext (
                         subject: "Jenkins Notification: Unit and Integration Tests Completed",
-                        body: "Unit and Integration Tests Stage completed with status: ${currentBuild.currentResult}",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                        body: "Unit and Integration Tests Stage completed with status: ${currentBuild.currentResult}.",
+                        to: 'faizanraza3695@gmail.com'
                     )
                 }
             }
         }
+
         stage('Code Analysis') {
             steps {
                 script {
-                    echo 'Analyzing code quality and standards compliance using SonarQube integrated with Jenkins for automated code review.'
+                    echo 'Analyzing code quality and standards compliance using SonarQube, integrated with Jenkins for automated code review.'
                 }
             }
         }
+
         stage('Security Scan') {
             steps {
                 script {
@@ -41,32 +45,36 @@ pipeline {
                 always {
                     emailext (
                         subject: "Jenkins Notification: Security Scan Completed",
-                        body: "Security Scan Stage completed with status: ${currentBuild.currentResult}",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                        body: "Security Scan Stage completed with status: ${currentBuild.currentResult}.",
+                        to: 'faizanraza3695@gmail.com'
                     )
                 }
             }
         }
+
         stage('Deploy to Staging') {
             steps {
                 script {
-                    echo 'Deploying the application to a staging environment on AWS EC2 to simulate production conditions.'
+                    echo 'Deploying the application to a staging environment on AWS EC2 to simulate production conditions using Terraform for infrastructure provisioning.'
                 }
             }
         }
+
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    echo 'Running additional integration tests in the staging environment to ensure the application operates as expected under near-production settings.'
+                    echo 'Running additional integration tests in the staging environment to ensure the application operates as expected under near-production settings using Postman for API testing.'
                 }
             }
         }
+
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo 'Deploying the application to the production server on AWS EC2 to make the application live for end-users.'
+                    echo 'Deploying the application to the production server on AWS EC2 to make the application live for end-users, using Docker for containerization and Kubernetes for orchestration.'
                 }
             }
         }
     }
+
 }
